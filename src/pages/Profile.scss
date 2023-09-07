@@ -1,0 +1,130 @@
+.profile-main-container {
+
+
+    .profile-main-content {
+        --padding-start: 5px;
+        --padding-end: 5px;
+        // --padding-bottom: 20px;
+        // --padding-top: 50px;
+        --background: rgb(255, 255, 255);
+
+
+        .profile-avatar-container {
+            position: relative;
+
+        }
+
+        .profile-back-button {
+            position: absolute;
+            top: 5%;
+            left: 5%;
+        }
+
+        .profile-avatar-container {
+            height: 400px;
+            background-size: cover;
+
+        }
+
+        .profile-user-details {
+            position: absolute;
+            bottom: 10%;
+            width: 100%;
+            padding-left: 20px;
+            padding-right: 20px;
+
+        }
+
+     
+
+        .profile-age-location-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+         
+
+            .location {
+                background-color: rgb(105, 104, 104);
+                padding: 8px;
+                font-size: 16px;
+                font-weight: 500;
+                color: white;
+                height: 30px;
+                border-radius: 20px;
+            }
+
+        }
+
+       
+
+        .profile-edit-icon {
+            bottom: 250px;
+            right: 5%;
+            position: absolute;
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: rgba(34, 34, 56, 0.25) 0px 6px 12px 8px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+
+        }
+
+        .user-info-modal {
+            padding: 10px 20px 10px 20px;
+            max-height: 450px;
+            overflow-y: scroll;
+            border-radius: 20px 20px 20px 20px;
+            box-shadow: rgba(34, 34, 56, 0.25) 0px 6px 12px 8px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+
+
+        }
+
+        .interest-field {
+            display: flex;
+            flex-wrap: wrap;
+            // max-width: 500px;
+            margin-bottom: 10px;
+        }
+
+        .interest-text {
+            margin: 3px;
+            box-shadow: rgba(34, 34, 56, 0.25) 0px 6px 22px 2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+
+            background-color: rgb(105, 104, 104);
+            color: white;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            padding: 10px;
+            font-size: 16px;
+            gap: 5px;
+        }
+
+        .about-me {
+            font-size: 18px;
+            color: rgb(101, 101, 101);
+            font-weight: 600;
+        }
+
+        .about-me-text {
+            font-size: 18px;
+            color: rgb(101, 101, 101);
+
+        }
+
+        .user-profession {
+            margin-top: -20px;
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+
+    }
+
+  
+}

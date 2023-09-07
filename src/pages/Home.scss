@@ -1,0 +1,170 @@
+.home-main-container {
+    .home-header-col {
+        height: 60px;
+        position: relative;
+        --ion-font-family: 'PrimaryFont';
+        box-shadow: rgba(34, 34, 56, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        letter-spacing: 1.5px;
+        font-size: 20px;
+        font-weight: 400px;
+
+        // background-color: #fefefe;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0px 10px 0px 10px;
+
+        .home-profile-img-container {
+            z-index: 500;
+        }
+
+        .home-local-text {
+            font-size: 28px;
+            font-weight: 600;
+            color: rgb(66, 66, 66);
+        }
+
+        .img-container {
+            height: 40px;
+            width: 40px;
+            border-radius: 50px;
+            background-size: cover;
+        }
+
+    }
+    .home-info-col {
+        // background-color: teal;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 50px;
+        // padding: 0px 10px 0px 10px;
+
+        .home-info-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: gray;
+
+        }
+    }
+
+
+    .home-main-content {
+        --padding-start: 10px;
+        --padding-end: 10px;
+        // --padding-bottom: 20px;
+        // --padding-top: 50px;
+        --background: 'ion-color-medium-shade';
+
+
+        .home-rooms-col {
+            background-color: palevioletred;
+            padding: 10px;
+
+
+            .room-text {
+                background-color: steelblue;
+                border-radius: 10px;
+                // width: auto;
+                text-align: center;
+                padding: 5px;
+                margin: 5px;
+                margin-bottom: 5px;
+            }
+        }
+
+
+       
+        .home-user-grid-container {
+            // background-color: cornflowerblue;
+            overflow-y: scroll;
+            // height: 86.5%;
+            margin: auto;
+
+            .home-user-avatar {
+                z-index: 1000;
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                margin: auto;
+                height: 200px;
+                margin-bottom: 15px;
+            }
+
+            .home-user-name {
+                font-size: 22px;
+                font-weight: 550;
+                height: 20px;
+            }
+
+            .info-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 20px;
+                width: 100%;
+
+
+            }
+
+            .avatar-container {
+                height: 100px;
+                width: 100px;
+                border-radius: 50%;
+                background-size: cover;
+                position: relative;
+
+            }
+
+            .online {
+                height: 13px;
+                width: 13px;
+                border-radius: 50%;
+                background-color: rgb(118, 170, 46);
+                position: absolute;
+                top: 5%;
+                right: 5%;
+            }
+
+            .offline {
+                height: 13px;
+                width: 13px;
+                border-radius: 50%;
+                background-color: gray;
+                position: absolute;
+                top: 5%;
+                right: 5%;
+            }
+
+        }
+
+
+    }
+.main-tab-container{
+    height: 60px;
+    // border-radius: 30px 30px 30px 30px;
+    // margin-bottom: 20px;
+    // margin-left: 10px;
+    // margin-right: 10px;
+    // background-color: gray;
+    // box-shadow: rgba(34, 34, 56, 0.25) 0px 6px 12px 8px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    .tab-col-box {
+
+        // background-color: gainsboro;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding-top: 0px;
+
+        .col-text {
+            margin-bottom: 0px;
+            margin-top: 0px;
+            font-size: 12px;
+        }
+    }
+
+}
+}

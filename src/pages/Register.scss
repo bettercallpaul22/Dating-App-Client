@@ -1,0 +1,147 @@
+.register-main-container {
+
+    .register-image {
+        height: 150px;
+        // max-width: 600px;
+        background-size: cover;
+    }
+ 
+
+    .register-ionic-content {
+        --padding-start: 24px;
+        --padding-end: 24px;
+        --padding-bottom: 20px;
+        --padding-top: 50px;
+        --background: #fefefe;
+
+        
+
+        .register-heading-col {
+            display: flex;
+            justify-content: center;
+            margin-top: -30px;
+            margin-bottom: 20px;
+
+            .register-heading-text {
+                font-size: 24px;
+                font-weight: 600;
+            }
+
+          
+        }
+
+
+        .input {
+            width: 100%;
+            height: 40px;
+            border: 2px solid gray;
+            border-radius: 3px;
+        }
+
+        .error-text {
+            margin-bottom: 5px;
+            margin-top: 5px;
+            color: red;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .register-btn-container {
+            // margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .register-btn {
+                width: 300px;
+                height: 42px;
+                letter-spacing: 1.5px;
+                --ion-font-family: 'PrimaryFont';
+                font-size: 18px;
+                font-weight: 400px;
+                text-transform: uppercase;
+            }
+        }
+
+
+        .register-agree-container {
+            // margin-top: 0px;
+            display: flex;
+            align-items: center;
+
+            .register-agree-text {
+                font-size: 14px;
+                --ion-font-family: 'PrimaryFont';
+
+                letter-spacing: .5px;
+                // font-size: 20px;
+                font-weight: 400px;
+            }
+        }
+
+        .register-have-acc-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 30px;
+
+            .text {
+                letter-spacing: .5px;
+                --ion-font-family: 'PrimaryFont';
+                font-size: 14px;
+                font-weight: 400px;
+                // text-transform: uppercase;
+            }
+
+            .login {
+                text-decoration: underline;
+                letter-spacing: .5px;
+                --ion-font-family: 'PrimaryFont';
+                font-size: 14px;
+                font-weight: 800px;
+                // text-transform: uppercase;
+            }
+
+        }
+
+        .profile-picture-container {
+            // background-color: skyblue;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            .profile-picture {
+                height: 100px;
+                width: 100px;
+                border-radius: 50%;
+
+                background-size: cover;
+            }
+
+        }
+
+        .register-have-acc-box {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 30px;
+            font-size: 16px;
+            font-weight: 600;
+
+
+
+            .register {
+                text-decoration: underline;
+
+            }
+
+        }
+
+
+
+
+
+    }
+
+}

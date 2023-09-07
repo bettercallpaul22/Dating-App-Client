@@ -1,0 +1,75 @@
+.login-main-container {
+
+    .login-image {
+        height: 300px;
+        // max-width: 600px;
+        // border-radius: 50px;
+        background-size: cover;
+    }
+
+    .login-ionic-content {
+        --padding-start: 24px;
+        --padding-end: 24px;
+        --padding-bottom: 20px;
+        --padding-top: 50px;
+        --background: #fefefe;
+
+
+
+
+        .login-heading-col {
+            display: flex;
+            justify-content: center;
+
+            .login-heading-text {
+                font-size: 28px;
+                font-weight: 600;
+            }
+
+          
+        }
+
+        .input {
+            ::placeholder {
+                text-transform: uppercase;
+            }
+        }
+
+
+
+        .forget-password {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .login-have-acc-box {
+            margin-top: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 30px;
+            font-size: 16px;
+            font-weight: 600;
+
+
+
+            .login {
+                text-decoration: underline;
+
+            }
+
+        }
+
+
+
+
+
+
+
+    }
+
+}

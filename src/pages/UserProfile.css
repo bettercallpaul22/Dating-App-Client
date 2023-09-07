@@ -1,0 +1,85 @@
+
+
+ion-modal#example-modal {
+    --margin-top:20px;
+    --height: 60%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+ion-modal#example-modal-bill {
+    --height: 31%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  
+  ion-modal#example-modal::part(backdrop) {
+    background: rgba(209, 213, 219);
+    opacity: 1;
+  }
+  
+  ion-modal#example-modal ion-toolbar {
+    --background: rgb(14 116 144);
+    --color: white;
+  }
+.request-modal-main-container{
+    /* background-color: plum; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+  
+  .your-avatar {
+  height: 100px;
+  width: 100px;
+    border-radius: 50%;
+     border-radius: 50px;
+    background-size: cover;
+
+}
+
+.who-pays-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bill{
+  height: 30px;
+  gap: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* box-shadow: rgba(34, 34, 56, 0.25) 0px 6px 6px 2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; */
+
+}
+
+.option-container{
+  /* background-color: bisque; */
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+
+.option-text{
+  margin: 3px;
+  box-shadow: rgba(34, 34, 56, 0.25) 0px 6px 22px 2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+
+      background-color: rgb(105, 104, 104);
+      color: white;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      /* max-width: 120px; */
+      justify-content: center;
+      border-radius: 20px;
+      padding: 10px;
+      font-size: 16px;
+      gap: 5px;
+}

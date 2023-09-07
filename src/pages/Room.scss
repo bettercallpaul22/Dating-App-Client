@@ -1,0 +1,186 @@
+.main-room-container {
+
+    .room-header-col {
+        background-color: rgb(226, 223, 223);
+        padding: 0px;
+        height: 60px;
+        position: relative;
+        --ion-font-family: 'PrimaryFont';
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        letter-spacing: 1.5px;
+        font-size: 20px;
+        font-weight: 400px;
+
+        .room-header-back-btn {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            height: 40px;
+            width: 40px;
+            top: 15%;
+            left: 15px;
+            z-index: 500;
+
+        }
+
+        .btn {
+            height: 40px;
+            width: 40px;
+        }
+
+        .info {
+            height: 40px;
+            // background-color: teal;
+            padding-left: 70px;
+            padding-right: 20px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .room-avater {
+                height: 55px;
+                width: 55px;
+                border-radius: 50%;
+                background-size: cover;
+
+            }
+
+            .call-box {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+        }
+
+
+
+
+
+    }
+
+    .profile-container-content {
+        --padding-start: 10px;
+        --padding-end: 10px;
+        // --padding-bottom: 20px;
+        // --padding-top: 50px;
+        --background: #fefefe;
+
+
+
+
+
+        .edit-profile-col {
+            display: flex;
+            justify-content: space-between;
+            padding: 0px;
+
+            .edit-profile-btn {
+                height: 40px;
+            }
+
+        }
+
+        .profile-display-name-container {
+
+            // background-color: palevioletred;
+            .profile-display-name {
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .profile-username {
+                font-size: 18px;
+                font-weight: 500;
+            }
+        }
+
+        .chat-container-right {
+            margin-bottom: 5px;
+
+
+            .chat-right-col {
+                display: flex;
+                justify-content: flex-end;
+                flex-direction: column;
+                align-items: end;
+            }
+
+
+            .chat-right {
+                background-color: rgb(177, 168, 232);
+                border-radius: 15px;
+                text-align: left;
+                align-self: right;
+                max-width: 310px;
+                padding: 10px;
+            }
+            .date-right{
+                color: gray;
+            }
+
+
+        }
+
+        .chat-container-left {
+            margin-bottom: 10px;
+
+
+            .chat-left-col {
+                display: flex;
+                justify-content: flex-start;
+                flex-direction: column;
+                align-items: start;
+            }
+
+
+            .chat-left {
+                background-color: rgb(200, 199, 206);
+                border-radius: 15px;
+                text-align: left;
+                align-self: left;
+                max-width: 310px;
+                padding: 10px;
+            }
+            .date-left{
+                color: gray;
+            }
+
+
+        }
+
+
+
+    }
+
+    .input-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0px 10px 0px 10px;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        .input {
+            width: 100%;
+            height: 50px;
+            padding-left: 20px;
+            border-radius: 50px;
+            border: 1px solid rgb(45, 44, 44);
+        }
+
+        .send-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(120, 57, 120);
+            width: 60px;
+            height: 50px;
+            border-radius: 50%;
+        }
+    }
+
+
+}

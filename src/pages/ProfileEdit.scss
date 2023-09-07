@@ -1,0 +1,97 @@
+.profile-edit-main-container {
+    
+    .profile-edit-header-col {
+        position: relative;
+        background-color:  rgb(255, 255, 255);
+        // background-color: 'ion-background-color';
+        height: 60px;
+        box-shadow: rgba(34, 34, 56, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        letter-spacing: 1.5px;
+        font-size: 20px;
+        font-weight: 400px;
+
+        display: flex;
+        align-items: center;
+        justify-content:center;
+        padding: 0px 10px 0px 10px;
+
+        .profile-edit-profile-img-container {
+            // z-index: 500;
+        }
+
+        .profile-edit-local-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: rgb(66, 66, 66);
+            // margin-left: 100px;
+        }
+
+        .img-container {
+            height: 40px;
+            width: 40px;
+            border-radius: 50px;
+            background-size: cover;
+        }
+
+    }
+
+    .profile-back-button {
+        z-index: 500;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+    }
+
+    .profile-edit-main-content {
+        --padding-start: 5px;
+        --padding-end: 5px;
+        // --padding-bottom: 20px;
+        // --padding-top: 50px;
+        --background: rgb(255, 255, 255);
+
+        .avatar-container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            
+            .avatar{
+
+            position: relative;
+            background-size: contain;
+            height: 100px;
+            width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+
+        }
+
+        .edit-avatar-icon{
+            // right: -20%;
+            // position: absolute;
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+        }
+
+    }
+
+    .edit-profile-text-container{
+        margin-bottom: 15px;
+        border: 1px solid gray;
+
+    }
+
+    .other-style{
+        display: flex;
+        align-items: center;
+        height: 40px;
+    }
+
+
+    }
+
+  
+}
