@@ -31,11 +31,11 @@ import TextField from '../components/TextField'
 const UserProfile: React.FC = () => {
   const userService = new UserServices()
   const history = useHistory()
-  const [user, setUser] = useState<User>()
+  const [friendProfile, setFriendProfile] = useState<User>()
   const [text, setText] = useState('')
   const [billName, setBillName] = useState<any>('')
   const [myProfile, setMyprofile] = useState<User>()
-  const [loading, setloading] = useState(false)
+  // const [loading, setloading] = useState(false)
 
 
   const modal = useRef<HTMLIonModalElement>(null)
@@ -43,9 +43,9 @@ const UserProfile: React.FC = () => {
   const billModal = useRef<HTMLIonModalElement>(null)
 
   function getMe() {
+    loadingModal.current?.present()
     userService.getMe()
       .then((res: User) => {
-        console.log(res)
         loadingModal.current?.dismiss()
         setMyprofile(res)
       })
@@ -55,10 +55,22 @@ const UserProfile: React.FC = () => {
       })
   }
 
+
+  function followUser() {
+    loadingModal.current?.present()
+    userService.followUser(friendProfile?._id as string)
+      .then((user: User) => {
+        setMyprofile(user)
+        loadingModal.current?.dismiss()
+      })
+      .catch((err) => { console.log('err following friend', err) });
+
+  }
+
   function handleSendRequest() {
     const data = {
       senderId: myProfile?._id,
-      recipientId: user?._id,
+      recipientId: friendProfile?._id,
       firstName: myProfile?.firstName,
       lastName: myProfile?.lastName,
       age: myProfile?.age,
@@ -83,11 +95,13 @@ const UserProfile: React.FC = () => {
   useIonViewWillEnter(() => {
     getMe()
     const loadedUser = history.location.state as User
-    setUser(loadedUser)
-    loadingModal.current?.present()
+    setFriendProfile(loadedUser)
+    // loadingModal.current?.present()
   })
 
-  console.log(myProfile?.firstName, user?.firstName)
+
+
+  // console.log(myProfile)
   return (
     <IonPage className='user-profile-main-container'>
       <IonLoading
@@ -103,20 +117,20 @@ const UserProfile: React.FC = () => {
             {/* <div className="main-avatar-container"> */}
 
             {
-              user?.avatar === "" && user?.gender === 'male' ?
+              friendProfile?.avatar === "" && friendProfile?.gender === 'male' ?
                 <div className="avatar-container"
                   style={{ backgroundImage: `url("./assets/images/avatar-male.svg")` }}
                 >
                 </div>
                 :
-                user?.avatar === "" && user?.gender === 'female' ?
+                friendProfile?.avatar === "" && friendProfile?.gender === 'female' ?
                   <div className="avatar-container"
                     style={{ backgroundImage: `url("./assets/images/avatar-female.svg")` }}
                   >
                   </div>
                   :
 
-                  <div className='avatar-container' style={{ backgroundImage: `url(${user?.avatar})` }}>
+                  <div className='avatar-container' style={{ backgroundImage: `url(${friendProfile?.avatar})` }}>
                   </div>
             }
             {/* </div> */}
@@ -134,7 +148,7 @@ const UserProfile: React.FC = () => {
               <div className="age-location-container" >
                 <div className='location'>
 
-                  {user?.firstName} {user?.lastName}
+                  {friendProfile?.firstName} {friendProfile?.lastName}
                 </div>
                 <div></div>
               </div>
@@ -142,14 +156,16 @@ const UserProfile: React.FC = () => {
               <div className="age-location-container" >
                 <div className='location'>
 
-                  {user?.age}y {user?.city} {user?.state}, {user?.country}
+                  {friendProfile?.age}y {friendProfile?.city} {friendProfile?.state}, {friendProfile?.country}
                 </div>
                 <div></div>
               </div>
 
               <div className="btn-follow-container">
-                <IonButton>
-                  <IonText>Follow</IonText>
+                <IonButton onClick={followUser}>
+                  <IonText>
+                    {myProfile?.following.includes(friendProfile?._id as string, 0) ? "Following" : "Follow"}
+                  </IonText>
                 </IonButton>
                 <IonButton className='message-box'>
                   <MdMessage color='white' size={30} />
@@ -166,7 +182,7 @@ const UserProfile: React.FC = () => {
             <div className='interest-field'>
 
               <div className="interest-text">
-                <p>{user?.gender} Interested in female</p>
+                <p>{friendProfile?.gender} Interested in female</p>
                 <p><FaFemale size={20} /></p>
               </div>
               <div className="interest-text">
@@ -253,7 +269,7 @@ const UserProfile: React.FC = () => {
 
             <TextField
               value=''
-              placeholder={`say somthing nice, if ${user?.firstName} accept your request, you will be able to have chat with ${user?.gender === 'female' ? 'her' : 'him'}`}
+              placeholder={`say somthing nice, if ${friendProfile?.firstName} accept your request, you will be able to have chat with ${friendProfile?.gender === 'female' ? 'her' : 'him'}`}
               onChange={(e) => {
                 setText(e)
               }}
@@ -283,8 +299,8 @@ const UserProfile: React.FC = () => {
             </IonText>
             <IonText
               className='option-text'
-              onClick={() => setBillName(user?.firstName)}
-            >{user?.firstName} will pay for the bill</IonText>
+              onClick={() => setBillName(friendProfile?.firstName)}
+            >{friendProfile?.firstName} will pay for the bill</IonText>
             <IonText className='option-text'
               onClick={() => setBillName('Shared Bill')}
 

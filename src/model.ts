@@ -58,6 +58,7 @@ export interface User {
     genderInterest: string;
     religion: string;
     followers: string[];
+    following: string[];
     about: string;
     gender: string;
     avatar: string;

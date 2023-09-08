@@ -40,6 +40,7 @@ export class UserServices {
             country: userData.country,
             avatar: userData.avatar,
             followers: userData.followers,
+            following: userData.followers,
             height: userData.height,
             orientation_: userData.orientation_,
             ethnicity: userData.ethnicity,
@@ -158,6 +159,27 @@ export class UserServices {
         return data
     }
 
+    // Follow
+    async followUser(friendId:string) {
+        const myId = authService.getUserId()
+        const token = authService.getUserToken()
+        const config = {
+            method: "post",
+            url: "/api/users/follow",
+            data: {friendId, myId, },
+            withCredentials: true,
+
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        }
+        const {data} = await api(config)
+        return data
+
+    }
+
+
     // Logout
     async logOut() {
         const token = authService.getUserToken()
@@ -173,7 +195,6 @@ export class UserServices {
             },
         }
         const res = await api(config)
-        console.log('logout data', res)
         return res
 
     }
