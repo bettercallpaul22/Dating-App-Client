@@ -106,8 +106,8 @@ const App: React.FC = () => {
  
 
 
-console.log(socket?.id)
-  console.log('app.js  online user state', onlineUsers)
+// console.log(socket?.id)
+//   console.log('app.js  online user state', onlineUsers)
 
   return (
     <AppContext.Provider

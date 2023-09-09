@@ -31,20 +31,43 @@
 
         .info {
             height: 40px;
-            // background-color: teal;
             padding-left: 70px;
             padding-right: 20px;
             margin-top: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: relative;
+            .name{
+             font-weight: 600;
+             font-size: 26px;
+             margin-left: -100px;
+           
+            }
 
             .profile-avater {
                 height: 45px;
                 width: 45px;
                 border-radius: 50%;
                 background-size: cover;
+                position: relative;
 
+            }
+            .online-icon{
+                position: absolute;
+                right: 0%;
+                background-color: green;
+                height: 13px;
+                width: 13px;
+                border-radius: 50%;
+            }
+            .offline-icon{
+                position: absolute;
+                right: 0%;
+                background-color: gray;
+                height: 13px;
+                width: 13px;
+                border-radius: 50%;
             }
 
             .call-box {
@@ -129,8 +152,6 @@
 
         .chat-container-left {
             margin-bottom: 10px;
-
-
             .chat-left-col {
                 display: flex;
                 justify-content: flex-start;
@@ -175,11 +196,17 @@
         margin-top: 10px;
 
         .input {
+            font-size: 18px;
+            // display: block;
+            resize: both;
             width: 100%;
-            height: 50px;
+             height: 50px;
+             max-height: 100px;
             padding-left: 20px;
-            border-radius: 50px;
-            border: 1px solid rgb(45, 44, 44);
+            padding-right: 20px;
+            overflow-y: hidden;
+            border-radius: 20px;
+            border: 2px solid gray;
         }
 
         .send-icon {

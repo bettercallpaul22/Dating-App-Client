@@ -214,15 +214,12 @@ export class UserServices {
     // get conversation
     async createConversation(receiverId: string) {
         const senderId = authService.getUserId()
-        try {
             const { data } = await api.post(`/api/chat//create-conversation`, {
                 senderId,
                 receiverId
             })
             return data
-        } catch (error) {
-            return error
-        }
+      
     }
 
     // get converssation

@@ -167,7 +167,9 @@ const UserProfile: React.FC = () => {
                     {myProfile?.following.includes(friendProfile?._id as string, 0) ? "Following" : "Follow"}
                   </IonText>
                 </IonButton>
-                <IonButton className='message-box'>
+                <IonButton className='message-box'
+              onClick={()=>history.push({pathname:'/chat', state:friendProfile})}
+                >
                   <MdMessage color='white' size={30} />
                 </IonButton>
               </div>

@@ -226,7 +226,7 @@ const Home: React.FC = () => {
                           <div className='avatar-container' style={{ backgroundImage: `url(${user.avatar})` }}>
                           </div>
                   }
-                  <div className={onlineUsers?.some((onlineUser: OnlineUserResponse) => onlineUser?.userId === user._id) ? 'online' : 'offline'}></div>
+                  <div className={onlineUsers?.some((u: OnlineUserResponse) => u?.userId === user._id) ? 'online' : 'offline'}></div>
                   {/* <div className="online">online</div> */}
                   <div className="home-user-name">{user.firstName} {user.lastName}</div>
                   <div className="age-box info-container">

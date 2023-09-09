@@ -1,20 +1,15 @@
-import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonText, useIonViewDidEnter, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react'
+import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonText, IonTextarea, useIonViewDidEnter, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react'
 import React, { useState, useEffect, useContext, useRef } from 'react'
 import './Chat.scss'
-import Header from '../components/Header'
-import ProfileHeader from '../components/ProfileHeader'
-import image from '../../public/assets/images/default-bg.jpg'
-import { MdAllInbox, MdArrowBackIosNew, MdSend } from 'react-icons/md'
+import { MdArrowBackIosNew, MdSend } from 'react-icons/md'
 import { useHistory } from 'react-router'
-import { call, send, sendSharp, videocam } from 'ionicons/icons'
-import { io } from 'socket.io-client'
+import { call, } from 'ionicons/icons'
 import { UserServices } from '../services/UserServices'
 import { ConversationResponse, MessageResponse, User } from '../model'
-import { AuthService } from '../services/AuthService'
 import { AppContext } from '../appContext/context'
 import { FaGift } from 'react-icons/fa6'
-import moment from 'moment' 
-import ReactTimeAgo from 'react-time-ago'
+import moment from 'moment'
+// import ReactTimeAgo from 'react-time-ago'
 
 interface Message {
   serderId: string;
@@ -24,17 +19,17 @@ interface Message {
 
 
 const Chat: React.FC = () => {
-  const { socket } = useContext(AppContext)
+  const { socket, onlineUsers } = useContext(AppContext)
   const history = useHistory()
   const userService = new UserServices()
-  const authService = new AuthService()
 
   // const [socket, setSocket] = useState<any>(null)
   const [newMessage, setNewMessage] = useState<any>('')
   const [chat, setChat] = useState<MessageResponse[]>()
   const [myProfile, setMyProfile] = useState<User>()
   const [otherUser, setOtherUser] = useState<User>()
-  const [conversationId, setConversationId] = useState<string>('')
+  const [conversationId, setConversationId] = useState('')
+  const [typing, setTyping] = useState('')
 
 
 
@@ -42,7 +37,7 @@ const Chat: React.FC = () => {
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [newMessage, chat])
+  }, [newMessage, chat, socket])
 
   function getMessages(conversationId: string) {
     userService.getMessages(conversationId)
@@ -73,17 +68,11 @@ const Chat: React.FC = () => {
         if (conversation) {
           setConversationId(conversation._id)
           getMessages(conversation._id)
-
-          // console.log('private conversation res', conversation)
-
         } else {
-          // console.log('no conversation exist', conversation)
           userService.createConversation(id)
             .then((conversation: ConversationResponse) => {
               setConversationId(conversation._id)
               getMessages(conversation._id)
-
-
               console.log('conversation created', conversation)
             })
             .catch((error) => console.log('error creating conversation', error))
@@ -103,21 +92,53 @@ const Chat: React.FC = () => {
     getPrivateConversation(user._id)
   })
 
+  function onTyping() {
+    if (!socket) return
+    socket.emit('on-typing', { data: `${myProfile?.firstName} is typing...`, receipientId: otherUser?._id })
+    socket.on('on-typing', (data: any) => {
+      setTyping(data.data)
+    })
+
+  }
+
+
+  function onBlur() {
+    if (!socket) return
+    socket.emit('stop-typing', { data: '', receipientId: otherUser?._id })
+
+    socket.on('stop-typing', (data: any) => {
+      setTyping(data.data)
+    })
+
+  }
 
   // send a message to a user
   function sendMessage(message: any) {
     if (!socket) return
-    socket.emit('sendMessage', { data: message, receipientId: otherUser?._id })
+    socket.emit('message', { data: message, receipientId: otherUser?._id })
   }
 
   // listen to message event from a user
   useEffect(() => {
     if (!socket) return
-    socket.on('getMessage', (data: any) => {
+    socket.on('message', (data: any) => {
       if (data.data.senderId === otherUser?._id) setChat((prev: any) => [...prev, data.data])
     })
+
+
+    socket.on('on-typing', (data: any) => {
+      setTyping(data.data)
+    })
+
+    socket.on('stop-typing', (data: any) => {
+      setTyping(data.data)
+    })
+
+
+
+
     return () => {
-      socket.off('getMessage')
+      socket.off('message')
     }
 
   }, [socket, chat, newMessage])
@@ -147,12 +168,7 @@ const Chat: React.FC = () => {
 
 
 
-  // console.log('chat ', chat)
-  // console.log('conversation ', chat?.length)
-  // console.log('otherUser ', otherUser)
-  // console.log('receipientId', otherUser)
-  // console.log('msg', message)
-  const creationDate : Date = new Date('2023-08-14T02:23:20.318+00:00')
+
   return (
     <IonPage className='main-profile-container'>
       <IonHeader style={{ height: 60, }}>
@@ -168,23 +184,33 @@ const Chat: React.FC = () => {
                 <MdArrowBackIosNew height={60} />
               </IonButton>
             </div>
-            <div className='info'>
+            <div className='info' >
               {
-                otherUser?.avatar === "" && otherUser?.gender === 'male' ? <div className="profile-avater"
-                  style={{ backgroundImage: `url("./assets/images/avatar-male.svg")` }}
-                >
-                </div>
-                  :
-                  otherUser?.avatar === "" && otherUser?.gender === 'female' ? <div className="profile-avater"
-                    style={{ backgroundImage: `url("./assets/images/avatar-female.svg")` }}
+                otherUser?.avatar === "" && otherUser?.gender === 'male' ?
+                  <div className="profile-avater"
+                    style={{ backgroundImage: `url("./assets/images/avatar-male.svg")` }}
                   >
+                    <div className={onlineUsers?.some((u: any) => u.userId === otherUser?._id) ? 'online-icon' : 'offline-icon'}></div>
+
                   </div>
+                  :
+                  otherUser?.avatar === "" && otherUser?.gender === 'female' ?
+                    <div className="profile-avater"
+                      style={{ backgroundImage: `url("./assets/images/avatar-female.svg")` }}
+                    >
+                      <div className={onlineUsers?.some((u: any) => u.userId === otherUser?._id) ? 'online-icon' : 'offline-icon'}></div>
+
+
+                    </div>
                     :
                     <div className="profile-avater" style={{ backgroundImage: `url(${otherUser?.avatar})` }}>
+                      <div className={onlineUsers?.some((u: any) => u.userId === otherUser?._id) ? 'online-icon' : 'offline-icon'}></div>
 
                     </div>
               }
-              <p>{otherUser?.firstName}</p>
+              <div className='name'>
+                <p>{otherUser?.firstName}</p>
+              </div>
               <div className="call-box">
                 <IonIcon icon={call} size='large' />
               </div>
@@ -207,15 +233,16 @@ const Chat: React.FC = () => {
                   <IonCol className={chat.senderId === myProfile?._id ? 'chat-right-col' : 'chat-left-col'}>
                     <IonText className={chat.senderId === myProfile?._id ? 'chat-right' : 'chat-left'}>{chat.text}</IonText>
                     <IonText className={chat.senderId === myProfile?._id ? 'date-right' : 'date-left'}>
-                    {moment(chat.createdAt).fromNow()}
-                    {/* <ReactTimeAgo date={parseInt(chat.createdAt)} locale='en-US' /> */}
-                    {/* <ReactTimeAgo date={parseInt(chat.createdAt)} locale='en-US' locales={}/> */}
+                      {moment(chat.createdAt).fromNow()}
                     </IonText>
                   </IonCol>
                 </IonRow>
               ))
 
             }
+            <IonCol size='12' ref={scrollRef}>
+              {typing && (<IonText>{typing}</IonText>)}
+            </IonCol>
           </div> : <div className='start-chat-info'>Say something nice to start conversation with {otherUser?.firstName}</div>}
         </div>
 
@@ -226,22 +253,37 @@ const Chat: React.FC = () => {
         <IonCol
           className='input-container'
           size='12'>
-
-          <input
+          {/* <textarea
+          value={newMessage}
             className='input'
-            // style={{ width: '100%', height: 50, border: '2px solid gray' }}
-            value={newMessage}
+            placeholder='Enter text'
+            onBlur={onBlur}
             onChange={(e) => {
               setNewMessage(e.target.value);
+              onTyping()
             }}
-            placeholder='Enter text'></input>
+          /> */}
+          <IonTextarea
+            placeholder='Enter text'
+            autoGrow
+            onBlur={onBlur}
+            className='input'
+            value={newMessage}
+            onIonInput={(e) => {
+              setNewMessage(e.target.value);
+              onTyping()
+         
+            }}
+          >
+
+          </IonTextarea>
           <div className="send-icon"
             onClick={(e) => {
               handleSubmit(e)
             }}
           >
-            {newMessage ? <MdSend size={35} color='white'/>:  <FaGift  size={32} color='pink'/> }
-         
+            {newMessage ? <MdSend size={35} color='white' /> : <FaGift size={32} color='pink' />}
+
           </div>
 
         </IonCol>
