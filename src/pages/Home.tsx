@@ -6,22 +6,18 @@ import {
   RefresherEventDetail,
   IonText,
   IonInfiniteScroll,
-  IonInfiniteScrollContent
+  IonInfiniteScrollContent,
+  IonLoading
 } from '@ionic/react'
-import { home, location, settings } from 'ionicons/icons'
-import React, { useState, useContext, useEffect } from 'react'
+import { location, settings } from 'ionicons/icons'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import './Home.scss'
 import { useHistory } from 'react-router';
 import { UserServices } from '../services/UserServices';
 import { AppContext } from '../appContext/context';
-import { MyChatResponse, User } from '../model';
-import { GrMail } from 'react-icons/gr';
-import { HiHome, HiMail, HiOutlineHome, HiOutlineMail } from 'react-icons/hi';
-import { FaHandshakeSimple } from 'react-icons/fa6';
+import { User } from '../model';
 import { AuthService } from '../services/AuthService';
-import { BiHomeCircle, BiSolidHomeCircle } from 'react-icons/bi';
-import { BsSearchHeartFill, BsSearchHeart } from 'react-icons/bs';
-import { FaRegHandshake } from 'react-icons/fa';
+
 import { GiSettingsKnobs } from 'react-icons/gi';
 
 interface OnlineUserResponse {
@@ -39,36 +35,11 @@ const Home: React.FC = () => {
   const pageSize = 8
 
   const authService = new AuthService()
-  const { socket, onlineUsers } = useContext(AppContext)
+  const { onlineUsers } = useContext(AppContext)
   const [myProfile, setMyProfile] = useState<User>()
   const [users, setUsers] = useState<any>([])
-  const [index, setIndex] = useState(0)
-  const [visibleData, setVisibleData] = useState<any>([])
   const [isScrolling, setisScrolling] = useState(false)
-
-  // function loadMore() {
-  //   // setIndex(index + 1)
-  //   const newUsers = [];
-  //   for (let i = 0; i < 8; i++) {
-  //       newUsers.push(1 + users?.length + i)
-  //   }
-  //   setUsers([...users, ...newUsers])
-  // }
-
-
-  useEffect(() => {
-    //   const numberOfItems = pageSize * (index + 1)
-    //   const newUsers = [];
-    //   for (let i = 0; i < users?.length; i++) {
-    //     if (i < numberOfItems)
-    //       newUsers.push(users[i])
-    //   }
-    //   setVisibleData(newUsers)
-    // loadMore()
-  }, []);
-
-
-
+  const loadingModal = useRef<any>(null)
 
 
 
@@ -86,15 +57,20 @@ const Home: React.FC = () => {
 
 
   function getAllUsers() {
+    loadingModal.current?.present()
     const userId = authService.getUserId()
     if (!userId) return
     userService.getUsers()
       .then((users) => {
         const filterdUsers = users?.filter((user: any) => user?._id !== userId)
         setUsers(filterdUsers)
+        loadingModal.current?.dismiss()
 
       })
-      .catch((error) => console.log('get all users response', error))
+      .catch((error) => {
+        loadingModal.current?.dismiss()
+        console.log('get all users response', error)
+      })
   }
 
 
@@ -117,6 +93,12 @@ const Home: React.FC = () => {
 
   return (
     <IonPage className='home-main-container'>
+      <IonLoading
+        ref={loadingModal}
+        message="Loading..."
+        spinner="dots"
+
+      />
       <IonHeader>
         <IonRow >
           <IonCol className='home-header-col' >
@@ -177,17 +159,7 @@ const Home: React.FC = () => {
           setisScrolling(!isScrolling);
         }}
       >
-        {/* <IonRow>
-          <IonCol size='12'>
-            <IonText color='primary'>Available Rooms</IonText>
-          </IonCol>
-          <IonCol className='home-rooms-col'>
-            <div className='room-text'>
-              <IonText color='primary'> Rooms 1yusujdshhiad</IonText>
 
-            </div>
-          </IonCol>
-        </IonRow> */}
 
 
         <IonGrid className='home-user-grid-container'>
@@ -256,61 +228,13 @@ const Home: React.FC = () => {
             }
           </IonRow>
         </IonGrid>
-        {/* <IonInfiniteScroll
-          onIonInfinite={(ev) => {
-            // loadMore()
-            // setTimeout(() => {
-            //   ev.target.complete()
-            // }, 4000)
-          }}
-        >
-          <IonInfiniteScrollContent></IonInfiniteScrollContent>
-        </IonInfiniteScroll> */}
 
         <IonRefresher slot='fixed' onIonRefresh={refresher}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
       </IonContent>
 
-      {!isScrolling ? <IonRow className='main-tab-container'>
 
-        <IonCol className='tab-col-box'
-          onClick={() => {
-            history.push("/")
-          }}
-        >
-          {history.location.pathname === "/search" ? <BiSolidHomeCircle size={30} /> : <BiHomeCircle size={30} />}
-          <p className='col-text'>Home</p>
-        </IonCol>
-
-        <IonCol className='tab-col-box'
-          onClick={() => {
-            history.push("/")
-          }}
-        >
-          {history.location.pathname === "/search" ? <BsSearchHeartFill size={30} /> : <BsSearchHeart size={30} />}
-          <p className='col-text'>Search</p>
-        </IonCol>
-
-        <IonCol className='tab-col-box'
-          onClick={() => {
-            history.push("/")
-          }}
-        >
-          {history.location.pathname === "/search" ? <FaHandshakeSimple size={30} /> : <FaRegHandshake size={30} />}
-          <p className='col-text'>Request</p>
-        </IonCol>
-
-        <IonCol className='tab-col-box'
-          onClick={() => {
-            history.push("/")
-          }}
-        >
-          {history.location.pathname === "/search" ? <HiOutlineMail size={30} /> : <HiMail size={30} />}
-          <p className='col-text'>Message</p>
-        </IonCol>
-
-      </IonRow> : ""}
 
     </IonPage>
   )

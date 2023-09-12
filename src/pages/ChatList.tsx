@@ -10,6 +10,15 @@ import { call, videocam } from 'ionicons/icons'
 import { MyChatResponse, User } from '../model'
 import { AppContext } from '../appContext/context'
 import { UserServices } from '../services/UserServices'
+import { BiArrowBack } from 'react-icons/bi'
+import { HiHome, HiMail, HiOutlineHome, HiOutlineMail } from 'react-icons/hi';
+import { FaHandshakeSimple } from 'react-icons/fa6';
+import { AuthService } from '../services/AuthService';
+import { BiHomeCircle, BiSolidHomeCircle } from 'react-icons/bi';
+import { BsSearchHeartFill, BsSearchHeart } from 'react-icons/bs';
+import { FaRegHandshake } from 'react-icons/fa';
+import { GiSettingsKnobs } from 'react-icons/gi';
+
 
 
 const ChatList: React.FC = () => {
@@ -19,20 +28,25 @@ const ChatList: React.FC = () => {
     // const { socket, members } = useContext(AppContext)
     const [myProfile, setMyProfile] = useState<User>()
     const [userChat, setUserChat] = useState<MyChatResponse[]>()
+    const [conversationList, setConversationList] = useState<any>([])
 
 
 
 
     function getChat(userId: string) {
-        userService.getConversation(userId)
+        userService.getConversation()
             .then((conversation: any) => {
-                const friendsId = conversation.map((data: any) => data.members.find((id: string) => id !== userId))
-                console.log(friendsId)
-                userService.getProfile(friendsId)
-                    .then((user) => {
-                        setUserChat(user)
-                    })
-                    .catch((error) => console.log('error getting firends profile', error))
+
+                // console.log('user conversation list', conversation.map((c:any)=>c._id))
+                // console.log('user conversation list', conversation)
+                setConversationList(conversation)
+                // const friendsId = conversation.map((data: any) => data.members.find((id: string) => id !== userId))
+                // console.log(friendsId)
+                // userService.getProfile(friendsId)
+                //     .then((user) => {
+                //         setUserChat(user)
+                //     })
+                //     .catch((error) => console.log('error getting firends profile', error))
             })
             .catch((error) => {
                 console.log(error)
@@ -68,25 +82,27 @@ const ChatList: React.FC = () => {
 
 
 
-    console.log('chat page and chat members', userChat)
-    console.log('my profile', myProfile)
+    // console.log('chat page and chat members', userChat?.map())
+    // console.log('conversation', conversationList?.friend)
+    // console.log('conversation', conversationList?.map((con: any) => con.friend))
 
     return (
         <IonPage className='chat-list-main-container'>
-            <IonHeader style={{ height: 60, }}>
-                <IonRow>
-                    <IonCol className='chat-list-header-col'>
-                        <div className="chat-list-header-back-btn">
-                            Chat
-                        </div>
+            <IonHeader>
+                <IonRow >
+                    <IonCol className='chat-edit-header-col' >
+                        <div className="chat-edit-local-text">CHAT</div>
 
-                        <div className="profile-avater"
-                            style={{ backgroundImage: `url("./assets/images/obaro.jpg")` }}
-                        >
-                        </div>
                     </IonCol>
                 </IonRow>
             </IonHeader>
+            <IonButton color='transparent' className='chat-back-button'
+                onClick={() => {
+                    history.goBack()
+                }}
+            >
+                <BiArrowBack color='black' size={30} />
+            </IonButton>
 
             <IonContent className='chat-list-container-content'>
                 <IonRow>
@@ -96,21 +112,22 @@ const ChatList: React.FC = () => {
                 </IonRow>
                 <IonRow>
                     {
-                        userChat?.map((user: any, index: any) => (
-                            <IonCol key={user._id} size='12'
-                            onClick={() => {
-                                // getChat('64cacbc82ce4bf93cf473f80')
-                                console.log('getting chat', user._id)
-                                history.push({pathname:`/chat`, state:user})
-            
-                              }}
+                        conversationList?.map((conversation: any, index: any) => (
+                            <IonCol key={conversation._id} size='12'
+                                onClick={() => {
+                                    // getChat('64cacbc82ce4bf93cf473f80')
+                                    console.log('frnd', conversation.friend)
+                                    history.push({ pathname: '/chat', state: conversation.friend })
+
+
+                                }}
                             >
                                 <div className="chat-container">
                                     <div className="chat-avater"
-                                        style={{ backgroundImage: `url("./assets/images/obaro.jpg")` }}
+                                        style={{ backgroundImage: `url(${conversation.friend.avatar})` }}
                                     ></div>
                                     <div className="info">
-                                        <div className="name">{user.firstName}</div>
+                                        <div className="name">{conversation.friend.firstName}</div>
                                         <div className="last-message">Hi how about it</div>
                                     </div>
                                     <div className="last-chat">20hr</div>
@@ -123,7 +140,45 @@ const ChatList: React.FC = () => {
 
 
             </IonContent>
+         
+                {/* <IonRow className='main-tab-container'>
+                    <IonCol className='tab-col-box'
+                        onClick={() => {
+                            history.push("/")
+                        }}
+                    >
+                        {history.location.pathname === "/" ? <BiSolidHomeCircle size={30} /> : <BiHomeCircle size={30} />}
+                        <p className='col-text'>Home</p>
+                    </IonCol>
 
+                    <IonCol className='tab-col-box'
+                        onClick={() => {
+                            history.push("/")
+                        }}
+                    >
+                        {history.location.pathname === "/search" ? <BsSearchHeartFill size={30} /> : <BsSearchHeart size={30} />}
+                        <p className='col-text'>Search</p>
+                    </IonCol>
+
+                    <IonCol className='tab-col-box'
+                        onClick={() => {
+                            history.push("/")
+                        }}
+                    >
+                        {history.location.pathname === "/search" ? <FaHandshakeSimple size={30} /> : <FaRegHandshake size={30} />}
+                        <p className='col-text'>Request</p>
+                    </IonCol>
+
+                    <IonCol className='tab-col-box'
+                        onClick={() => {
+                            history.push("/chat-list")
+                        }}
+                    >
+                        {history.location.pathname === "/chat-list" ? <HiMail size={30} /> : <HiOutlineMail size={30} />}
+                        <p className='col-text'>Message</p>
+                    </IonCol>
+
+                </IonRow> */}
         </IonPage>
     )
 }

@@ -111,6 +111,7 @@ export class UserServices {
 
     // get users fn
     async getUsersfN(id: any) {
+        
         const userPromise = id.map((id: any) => fetch(`api/users/profile/${id}`))
         const res = Promise.all(userPromise)
         const userData = Promise.all((await res).map(r => r.data))
@@ -118,7 +119,18 @@ export class UserServices {
     }
 
     async getProfile(id: any) {
-        const userPromise = id.map((id: any) => api.get(`api/users/profile/${id}`))
+        const token = authService.getUserToken()
+        const config = {
+            url:`api/users/profile/${id}`,
+            method: 'get',
+            data: {},
+            headers: {
+                "Content-Type": `application/json`,
+                "authorization": `Bearer ${token}`,
+            },
+        }
+        const userPromise = id.map((id: any) => api_(config))
+        // console.log("userservice response getting profile", userPromise)
         const res = await Promise.all(userPromise)
         const userData = res.map((response: any) => response.data)
         return userData
@@ -211,10 +223,11 @@ export class UserServices {
 
     }
 
-    // get conversation
+    // Create conversation
     async createConversation(receiverId: string) {
+        
         const senderId = authService.getUserId()
-            const { data } = await api.post(`/api/chat//create-conversation`, {
+            const { data } = await api.post(`/api/chat/create-conversation`, {
                 senderId,
                 receiverId
             })
@@ -223,13 +236,22 @@ export class UserServices {
     }
 
     // get converssation
-    async getConversation(userId: string) {
-        try {
-            const { data } = await api.get(`/api/chat/${userId}`)
-            return data
-        } catch (error) {
-            return error
+    async getConversation() {
+        const myId = authService.getUserId()
+        const token = authService.getUserToken()
+        const config = {
+            url:`/api/chat/${myId}`,
+            method: 'get',
+            data: {},
+            headers: {
+                "Content-Type": `application/json`,
+                "authorization": `Bearer ${token}`,
+            },
         }
+
+            const { data } = await api_(config)
+            return data
+      
     }
 
 

@@ -1,12 +1,18 @@
 import { Redirect, Route, useHistory, useLocation, useParams } from 'react-router-dom';
 import {
   IonApp,
+  IonCol,
+  IonLabel,
   IonRouterOutlet,
+  IonRow,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
   setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Register from './pages/Register';
-import Home from './pages/Home';
+// import Home from './pages/Home';
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -28,6 +34,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 // import './theme/css-variables.css';
 import './theme/variables.scss';
+import './App.scss';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Chat from './pages/Chat';
@@ -43,6 +50,15 @@ import { io } from 'socket.io-client'
 import UserProfile from './pages/UserProfile';
 import ProfileEdit from './pages/ProfileEdit';
 import Test from './pages/Test';
+import HomePage from './pages/HomePage';
+import Home from './pages/Home';
+import { GrMail } from 'react-icons/gr';
+import { HiHome, HiMail, HiOutlineHome, HiOutlineMail } from 'react-icons/hi';
+import { FaHandshakeSimple } from 'react-icons/fa6';
+import { BiHomeCircle, BiSolidHomeCircle } from 'react-icons/bi';
+import { BsSearchHeartFill, BsSearchHeart } from 'react-icons/bs';
+import { FaRegHandshake } from 'react-icons/fa';
+import { GiSettingsKnobs } from 'react-icons/gi';
 
 interface OnlineUserResponse {
   socketId: string;
@@ -69,9 +85,10 @@ const App: React.FC = () => {
   const [socket, setSocket] = useState<any>(null)
   const [currentUserId, setCurrentUserId] = useState('')
   const [onlineUsers, setOnlineUsers] = useState<OnlineUserResponse>()
+  const [currentLocation, setcurrentLocation] = useState(location.pathname)
 
 
-// connecting the socket server
+  // connecting the socket server
   useEffect(() => {
     const socketServer = (io("http://localhost:5000"))
     setSocket(socketServer)
@@ -103,12 +120,13 @@ const App: React.FC = () => {
     })
 
   }, [currentUserId, socket])
- 
 
 
-// console.log(socket?.id)
-//   console.log('app.js  online user state', onlineUsers)
 
+  // console.log(socket?.id)
+  //   console.log('app.js  online user state', onlineUsers)
+  console.log('location name', location.pathname)
+  // console.log('history', history)
   return (
     <AppContext.Provider
       value={{
@@ -124,17 +142,12 @@ const App: React.FC = () => {
       }}>
       <IonApp className='main-app'>
         <IonReactRouter>
-          {/* <IonRouterOutlet>
-        <Route exact path="/register">
-                <Register />
-              </Route>
-              <Route exact path="/login">
-                <Login />
-              </Route>
-        </IonRouterOutlet> */}
-
-          {/* <IonTabs> */}
+          <IonTabs>
             <IonRouterOutlet>
+
+
+
+
               <Route exact path="/" render={() => <Home />}>
 
               </Route>
@@ -163,47 +176,43 @@ const App: React.FC = () => {
                 <ProfileEdit />
               </Route>
               <Route exact={true} path="/chat-list" render={() => <ChatList />}>
-
               </Route>
 
             </IonRouterOutlet>
+            <IonTabBar slot='bottom'>
 
-          {/* { history?.location?.pathname === "" &&   ( */}
-            {/* <IonTabBar className='ion-tab' slot='bottom'> */}
+              <IonTabButton tab='home' href='/'
+              onClick={()=>{setcurrentLocation('/')}}
+              >
+                {currentLocation === "/" ? <BiSolidHomeCircle size={30} /> : <BiHomeCircle size={30} />}
+                <IonLabel>Home</IonLabel>
+              </IonTabButton>
 
+              <IonTabButton tab='#' href='/#' disabled>
+                {location?.pathname === "/search" ? <BsSearchHeartFill size={30} color='#C2255C' /> : <BsSearchHeart size={30} color='#C2255C' />}
+                <IonLabel>search</IonLabel>
+              </IonTabButton>
 
-              {/* <IonTabButton tab='/' href='/'>
-                {history?.location?.pathname === "" ? <HiOutlineHome size={40} /> : <HiHome size={40} />}
-                <IonLabel
-                  style={{ color: 'black', fontSize: 12, letterSpacing: 3, fontWeight: 700 }}
-                  className='col-text'>
-                  HOME
-                </IonLabel>
-              </IonTabButton> */}
-{/* 
-              <IonTabButton>
-                {history?.location?.pathname === "request" ? <FaHandshakeSimple size={40} /> : <FaHandshake size={40} />}
-                <IonLabel style={{ color: 'black', fontSize: 12, letterSpacing: 3, fontWeight: 700 }} className='col-text'>
-                  REQUEST
-                </IonLabel>
-              </IonTabButton> */}
-
-              {/* <IonTabButton>
-                {history?.location?.pathname === "chat-list" ? <GrMail size={40} /> : <MdMailOutline size={40} />}
-                <IonLabel style={{ color: 'black', fontSize: 12, letterSpacing: 3, fontWeight: 700 }}
-                  className='col-text'>
-                  MESSAGE
-                </IonLabel>
-              </IonTabButton> */}
+              <IonTabButton tab='#' href='/#' disabled>
+                {location?.pathname === "/request" ? <FaHandshakeSimple size={30} color='#C2255C' /> : <FaRegHandshake size={30} color='#C2255C' />}
+                <IonLabel>Request</IonLabel>
+              </IonTabButton>
 
 
+              <IonTabButton tab='message' href='/chat-list'
+              onClick={()=>{setcurrentLocation('chat-list')}}
+              
+              >
+                {currentLocation === "chat-list" ? <HiMail size={30} color='#C2255C' /> : <HiOutlineMail size={30} color='#C2255C' />}
+                <IonLabel>Message</IonLabel>
+              </IonTabButton>
 
-            {/* </IonTabBar> */}
-            {/* )} */}
+            </IonTabBar>
 
-          {/* </IonTabs> */}
+          </IonTabs>
         </IonReactRouter>
       </IonApp>
+
     </AppContext.Provider>
   )
 };

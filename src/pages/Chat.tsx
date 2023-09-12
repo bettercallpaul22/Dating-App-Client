@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonText, IonTextarea, useIonViewDidEnter, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react'
+import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonLoading, IonPage, IonRow, IonSkeletonText, IonText, IonTextarea, useIonViewDidEnter, useIonViewWillEnter, useIonViewWillLeave } from '@ionic/react'
 import React, { useState, useEffect, useContext, useRef } from 'react'
 import './Chat.scss'
 import { MdArrowBackIosNew, MdSend } from 'react-icons/md'
@@ -30,9 +30,10 @@ const Chat: React.FC = () => {
   const [otherUser, setOtherUser] = useState<User>()
   const [conversationId, setConversationId] = useState('')
   const [typing, setTyping] = useState('')
+  const [loading, setLoading] = useState(false)
 
 
-
+  const loadingModal = useRef<any>(null)
   const scrollRef = useRef<HTMLIonRowElement>(null)
 
   useEffect(() => {
@@ -63,19 +64,27 @@ const Chat: React.FC = () => {
 
 
   function getPrivateConversation(id: string) {
+    loadingModal.current?.present();
     userService.getPrivateConversation(id)
       .then((conversation: ConversationResponse) => {
         if (conversation) {
+          // console.log('setting chat conversation')
           setConversationId(conversation._id)
           getMessages(conversation._id)
+          loadingModal.current?.dismiss();
+
         } else {
-          userService.createConversation(id)
+          userService.createConversation(id)  // creating new conversation for first time chat
             .then((conversation: ConversationResponse) => {
               setConversationId(conversation._id)
               getMessages(conversation._id)
-              console.log('conversation created', conversation)
+              // console.log('conversation created', conversation)
+          loadingModal.current?.dismiss();
+
             })
             .catch((error) => console.log('error creating conversation', error))
+          loadingModal.current?.dismiss();
+
         }
       })
       .catch(() => {
@@ -171,6 +180,13 @@ const Chat: React.FC = () => {
 
   return (
     <IonPage className='main-profile-container'>
+       <IonLoading
+        ref={loadingModal}
+        message="Loading Chat..."
+        // duration={3000}
+        spinner="dots"
+
+      />
       <IonHeader style={{ height: 60, }}>
         <IonRow>
           <IonCol className='chat-header-col'>
@@ -221,7 +237,7 @@ const Chat: React.FC = () => {
       </IonHeader>
 
 
-      <IonContent className='profile-container-content'>
+    {!loading && ( <IonContent className='profile-container-content'>
         <div style={{ marginTop: '30px' }}></div>
         <div style={{ height: '86.5%' }}>
           {chat?.length !== 0 ? <div>
@@ -245,24 +261,12 @@ const Chat: React.FC = () => {
             </IonCol>
           </div> : <div className='start-chat-info'>Say something nice to start conversation with {otherUser?.firstName}</div>}
         </div>
-
-
-
-      </IonContent>
+      </IonContent>)}
+  
       <IonRow>
         <IonCol
           className='input-container'
           size='12'>
-          {/* <textarea
-          value={newMessage}
-            className='input'
-            placeholder='Enter text'
-            onBlur={onBlur}
-            onChange={(e) => {
-              setNewMessage(e.target.value);
-              onTyping()
-            }}
-          /> */}
           <IonTextarea
             placeholder='Enter text'
             autoGrow

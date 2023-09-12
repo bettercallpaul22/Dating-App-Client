@@ -158,7 +158,7 @@ const ProfileEdit: React.FC = () => {
     }
 
 
-    // console.log('state', history.location.state)
+    console.log('state', history.location.state)
 
 
     return (

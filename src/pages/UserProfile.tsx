@@ -101,7 +101,6 @@ const UserProfile: React.FC = () => {
 
 
 
-  // console.log(myProfile)
   return (
     <IonPage className='user-profile-main-container'>
       <IonLoading
@@ -164,7 +163,7 @@ const UserProfile: React.FC = () => {
               <div className="btn-follow-container">
                 <IonButton onClick={followUser}>
                   <IonText>
-                    {myProfile?.following.includes(friendProfile?._id as string, 0) ? "Following" : "Follow"}
+                    {myProfile?.following?.includes(friendProfile?._id as string, 0) ? "Following" : "Follow"}
                   </IonText>
                 </IonButton>
                 <IonButton className='message-box'

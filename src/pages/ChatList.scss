@@ -1,5 +1,45 @@
 .chat-list-main-container {
 
+    .chat-edit-header-col {
+        position: relative;
+        background-color:  rgb(255, 255, 255);
+        // background-color: 'ion-background-color';
+        height: 60px;
+        box-shadow: rgba(34, 34, 56, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        letter-spacing: 1.5px;
+        font-size: 20px;
+        font-weight: 400px;
+
+        display: flex;
+        align-items: center;
+        justify-content:center;
+        padding: 0px 10px 0px 10px;
+
+      
+        .chat-edit-local-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: rgb(66, 66, 66);
+            // margin-left: 100px;
+        }
+
+        .img-container {
+            height: 40px;
+            width: 40px;
+            border-radius: 50px;
+            background-size: cover;
+        }
+
+    }
+
+    
+    .chat-back-button {
+        z-index: 500;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+    }
+
     .chat-list-header-col {
         background-color: rgb(226, 223, 223);
         padding: 0px 10px 0px 10px;
@@ -35,7 +75,8 @@
 
 
         .chat-container {
-            background-color: plum;
+            background-color:  rgb(234, 233, 233);
+            border: 2px solid rgb(234, 233, 233);
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -63,7 +104,31 @@
 
 
 
+.main-tab-container{
+    height: 60px;
+    // border-radius: 30px 30px 30px 30px;
+    // margin-bottom: 20px;
+    // margin-left: 10px;
+    // margin-right: 10px;
+    // background-color: gray;
+    // box-shadow: rgba(34, 34, 56, 0.25) 0px 6px 12px 8px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    .tab-col-box {
 
+        // background-color: gainsboro;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding-top: 0px;
+
+        .col-text {
+            margin-bottom: 0px;
+            margin-top: 0px;
+            font-size: 12px;
+        }
+    }
+
+}
 
 
 
